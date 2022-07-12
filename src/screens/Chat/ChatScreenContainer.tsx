@@ -7,8 +7,8 @@ import { NewMessageInput } from "./NewMessageInput";
 export const ChatScreenContainer = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   
-  const handleMessageSendClick = (text: string) => {
-    setMessages([...messages, {text}])
+  const handleMessageSendClick = (newMessage: ChatMessage) => {
+    setMessages([...messages, newMessage])
   }
   
   return (
