@@ -21,7 +21,7 @@ export const NewMessageInput = ({onSendClick}: Props) => {
         text: inputRef.current.value
       })
     });
-  
+    
     inputRef.current.value = "";
     
     const newMessage = response.data as ChatMessage

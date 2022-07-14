@@ -7,8 +7,8 @@ type Props = {
 export const MessageList = ({messages}: Props) => {
   return (
     <div style={{overflow: "scroll"}}>
-      {messages.map(({text, id}) => {
-        return <p key={id}>{text}</p>
+      {messages.map(({Text, ID}) => {
+        return <p key={ID}>{Text}</p>
       })}
     </div>
   )
