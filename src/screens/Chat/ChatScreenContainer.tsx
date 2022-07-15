@@ -5,6 +5,7 @@ import { MessageList } from "./MessageList";
 import { NewMessageInput } from "./NewMessageInput";
 import {fetch} from "@tauri-apps/api/http";
 import config from "../../config.json";
+import {conn} from "./ws";
 
 export const ChatScreenContainer = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -16,16 +17,21 @@ export const ChatScreenContainer = () => {
     }
     
     fetchMessages();
-  }, []);
   
-  const handleMessageSendClick = (newMessage: ChatMessage) => {
-    setMessages([...messages, newMessage])
-  }
+    conn.onmessage = (ev) => {
+      console.log(ev);
+      
+      setMessages((oldMessages) => ([
+        ...oldMessages,
+        JSON.parse(ev.data)
+      ]))
+    }
+  }, []);
   
   return (
     <Styled.Root>
       <MessageList messages={messages} />
-      <NewMessageInput onSendClick={handleMessageSendClick} />
+      <NewMessageInput />
     </Styled.Root>
   )
 }

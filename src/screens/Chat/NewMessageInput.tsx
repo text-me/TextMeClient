@@ -1,13 +1,7 @@
 import {useRef, KeyboardEvent} from "react";
-import config from '../../config.json'
-import {Body, fetch} from '@tauri-apps/api/http';
-import {ChatMessage} from "./types";
+import {conn} from "./ws";
 
-type Props = {
-  onSendClick: (message: ChatMessage) => void
-}
-
-export const NewMessageInput = ({onSendClick}: Props) => {
+export const NewMessageInput = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   
   const handleSend = async () => {
@@ -15,17 +9,9 @@ export const NewMessageInput = ({onSendClick}: Props) => {
       return;
     }
   
-    const response = await fetch(`${config.serverUrl}/newMessage`, {
-      method: 'POST',
-      body: Body.json({
-        text: inputRef.current.value
-      })
-    });
+    conn.send(JSON.stringify({type: 'newMessage', text: inputRef.current.value}));
     
     inputRef.current.value = "";
-    
-    const newMessage = response.data as ChatMessage
-    onSendClick(newMessage);
   }
   
   const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
