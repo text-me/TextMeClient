@@ -1,4 +1,6 @@
 import {ChatMessage} from "./types";
+import {ScrollArea} from "@mantine/core";
+import { MessageItem } from "./MessageItem";
 
 type Props = {
   messages: ChatMessage[]
@@ -6,10 +8,10 @@ type Props = {
 
 export const MessageList = ({messages}: Props) => {
   return (
-    <div style={{overflow: "scroll"}}>
+    <ScrollArea>
       {messages.map(({Text, ID}) => {
-        return <p key={ID}>{Text}</p>
+        return <MessageItem key={ID} text={Text} />
       })}
-    </div>
+    </ScrollArea>
   )
 }

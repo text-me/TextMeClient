@@ -1,5 +1,6 @@
 import {useRef, KeyboardEvent} from "react";
 import {conn} from "./ws";
+import {Button, Grid, Textarea} from "@mantine/core";
 
 export const NewMessageInput = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -23,11 +24,13 @@ export const NewMessageInput = () => {
   };
   
   return (
-    <div style={{display: 'flex', justifyContent: 'space-between'}}>
-      <textarea style={{width: '65%'}} ref={inputRef} onKeyDown={handleKeyDown} />
-      <button style={{width: '30%'}} onClick={handleSend}>
-        Send
-      </button>
-    </div>
+    <Grid>
+      <Grid.Col span={10}>
+        <Textarea ref={inputRef} onKeyDown={handleKeyDown} />
+      </Grid.Col>
+      <Grid.Col span={2}>
+        <Button onClick={handleSend}>Send</Button>
+      </Grid.Col>
+    </Grid>
   )
 }

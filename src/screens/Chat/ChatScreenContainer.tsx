@@ -6,6 +6,7 @@ import { NewMessageInput } from "./NewMessageInput";
 import {fetch} from "@tauri-apps/api/http";
 import config from "../../config.json";
 import {conn} from "./ws";
+import {Stack} from "@mantine/core";
 
 export const ChatScreenContainer = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -29,9 +30,11 @@ export const ChatScreenContainer = () => {
   }, []);
   
   return (
-    <Styled.Root>
+    <Stack justify={'space-between'} style={{
+      height: '100%'
+    }}>
       <MessageList messages={messages} />
       <NewMessageInput />
-    </Styled.Root>
+    </Stack>
   )
 }
