@@ -1,6 +1,6 @@
-import {ChatMessage} from "./types";
 import {ScrollArea} from "@mantine/core";
 import { MessageItem } from "./MessageItem";
+import {ChatMessage} from "../../state/store";
 
 type Props = {
   messages: ChatMessage[]

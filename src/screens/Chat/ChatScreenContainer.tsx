@@ -1,15 +1,16 @@
-import {useEffect, useState} from "react";
-import {ChatMessage} from "./types";
-import * as Styled from './style'
+import {useEffect} from "react";
 import { MessageList } from "./MessageList";
 import { NewMessageInput } from "./NewMessageInput";
 import {fetch} from "@tauri-apps/api/http";
 import config from "../../config.json";
 import {conn} from "./ws";
 import {Stack} from "@mantine/core";
+import {ChatMessage, useStore} from "../../state/store";
 
 export const ChatScreenContainer = () => {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const messages = useStore((state) => state.messages)
+  const setMessages = useStore((state) => state.setMessages)
+  const addMessage = useStore((state) => state.addMessage)
   
   useEffect(() => {
     const fetchMessages = async () => {
@@ -22,10 +23,7 @@ export const ChatScreenContainer = () => {
     conn.onmessage = (ev) => {
       console.log(ev);
       
-      setMessages((oldMessages) => ([
-        ...oldMessages,
-        JSON.parse(ev.data)
-      ]))
+      addMessage(JSON.parse(ev.data));
     }
   }, []);
   
