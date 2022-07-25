@@ -1,10 +1,10 @@
 import {ScrollArea} from "@mantine/core";
 import { MessageItem } from "./MessageItem";
-import {ChatMessage} from "../../state/store";
 import {useEffect, useRef} from "react";
+import {TMessage} from "./types";
 
 type Props = {
-  messages: ChatMessage[]
+  messages: TMessage[]
 }
 
 export const MessageList = ({messages}: Props) => {
@@ -19,8 +19,8 @@ export const MessageList = ({messages}: Props) => {
   
   return (
     <ScrollArea viewportRef={scrollRef}>
-      {messages.map(({Text, ID}) => {
-        return <MessageItem key={ID} text={Text} />
+      {messages.map(({id, text}) => {
+        return <MessageItem key={id} text={text} />
       })}
     </ScrollArea>
   )

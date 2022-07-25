@@ -1,5 +1,5 @@
 import {useRef, KeyboardEvent} from "react";
-import {conn} from "./ws";
+import {ws} from "./ws";
 import {Button, Grid, Textarea} from "@mantine/core";
 
 export const NewMessageInput = () => {
@@ -9,8 +9,8 @@ export const NewMessageInput = () => {
     if (!inputRef.current) {
       return;
     }
-  
-    conn.send(JSON.stringify({type: 'newMessage', text: inputRef.current.value}));
+    
+    ws.sendNewMessage({text: inputRef.current.value})
     
     inputRef.current.value = "";
   }
