@@ -15,6 +15,9 @@ export const ChatScreenContainer = () => {
   const setMessages = useStore((state) => state.setMessages)
   const addMessage = useStore((state) => state.addMessage)
   
+  const selectedGroup = useStore((state) => state.selectedGroup)
+  const selectGroup = useStore((state) => state.selectGroup)
+  
   const groups = useStore((state) => state.groups)
   const setGroups = useStore((state) => state.setGroups)
   const addGroup = useStore((state) => state.addGroup)
@@ -55,7 +58,7 @@ export const ChatScreenContainer = () => {
         height: '100%',
         justifyContent: 'space-between'
       }}>
-        <GroupsList groups={groups} />
+        <GroupsList groups={groups} selected={selectedGroup} selectGroup={selectGroup} />
         <NewGroup />
       </Stack>
       <Stack justify={'space-between'} style={{

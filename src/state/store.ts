@@ -8,6 +8,9 @@ interface State {
   setMessages: (messages: TMessage[]) => void
   addMessage: (message: TMessage) => void,
   
+  selectedGroup: number,
+  selectGroup: (group: number) => void,
+  
   groups: TGroup[],
   setGroups: (messages: TGroup[]) => void
   addGroup: (message: TGroup) => void,
@@ -23,6 +26,9 @@ export const useStore = create<State>()(
           state.messages.push(message)
         })
       },
+      
+      selectedGroup: 1,
+      selectGroup: (selectedGroup) => set({selectedGroup}),
   
       groups: [],
       setGroups: (groups) => set({groups}),

@@ -5,9 +5,11 @@ import {useEffect, useRef} from "react";
 
 type Props = {
   groups: TGroup[]
+  selected: number,
+  selectGroup: (group: number) => void
 }
 
-export const GroupsList = ({groups}: Props) => {
+export const GroupsList = ({groups, selected, selectGroup}: Props) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   
   // Always scroll to last message if messages have changed
@@ -21,7 +23,7 @@ export const GroupsList = ({groups}: Props) => {
     <ScrollArea viewportRef={scrollRef}>
       <Paper>
         {groups.map(({id, title}) => {
-          return <GroupItem key={id} title={title} />
+          return <GroupItem key={id} title={title} selected={selected == id} onClick={() => selectGroup(id)} />
         })}
       </Paper>
     </ScrollArea>
