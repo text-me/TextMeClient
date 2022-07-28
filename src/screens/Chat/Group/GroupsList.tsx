@@ -1,13 +1,13 @@
-import {Paper, ScrollArea, useMantineTheme} from "@mantine/core";
-import { MessageItem } from "./MessageItem";
+import {Paper, ScrollArea} from "@mantine/core";
+import {TGroup} from "../types";
+import {GroupItem} from "./GroupItem";
 import {useEffect, useRef} from "react";
-import {TMessage} from "./types";
 
 type Props = {
-  messages: TMessage[]
+  groups: TGroup[]
 }
 
-export const MessageList = ({messages}: Props) => {
+export const GroupsList = ({groups}: Props) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   
   // Always scroll to last message if messages have changed
@@ -15,15 +15,15 @@ export const MessageList = ({messages}: Props) => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({top: Number.MAX_VALUE});
     }
-  }, [messages])
+  }, [groups])
   
   return (
     <ScrollArea viewportRef={scrollRef}>
       <Paper>
-        {messages.map(({id, text}) => {
-          return <MessageItem key={id} text={text} />
+        {groups.map(({id, title}) => {
+          return <GroupItem key={id} title={title} />
         })}
       </Paper>
     </ScrollArea>
   )
-}
+};

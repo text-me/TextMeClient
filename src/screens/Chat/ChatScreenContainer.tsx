@@ -4,21 +4,34 @@ import {NewMessageInput} from "./NewMessageInput";
 import {fetch} from "@tauri-apps/api/http";
 import config from "../../config.json";
 import {ws} from "./ws";
-import {Stack} from "@mantine/core";
+import {SimpleGrid, Stack} from "@mantine/core";
 import {useStore} from "../../state/store";
-import {TMessage} from "./types";
+import {TGroup, TMessage} from "./types";
+import {NewGroup} from "./Group/NewGroup";
+import {GroupsList} from "./Group/GroupsList";
 
 export const ChatScreenContainer = () => {
   const messages = useStore((state) => state.messages)
   const setMessages = useStore((state) => state.setMessages)
   const addMessage = useStore((state) => state.addMessage)
   
+  const groups = useStore((state) => state.groups)
+  const setGroups = useStore((state) => state.setGroups)
+  const addGroup = useStore((state) => state.addGroup)
+  
   useEffect(() => {
-    const removeSubscription = ws.onNewMessage((newMessage) => {
+    const removeNewMessageSubscription = ws.onNewMessage((newMessage) => {
       addMessage(newMessage);
     });
+  
+    const removeNewGroupSubscription = ws.onNewGroup((newGroup) => {
+      addGroup(newGroup);
+    });
     
-    return removeSubscription;
+    return () => {
+      removeNewMessageSubscription();
+      removeNewGroupSubscription();
+    }
   }, []);
   
   useEffect(() => {
@@ -26,16 +39,31 @@ export const ChatScreenContainer = () => {
       const response = await fetch(`${config.serverUrl}/getMessages`);
       setMessages(response.data as TMessage[]);
     }
-    
     fetchMessages();
+  
+    const fetchGroups = async () => {
+      const response = await fetch(`${config.serverUrl}/getGroups`);
+      console.log(response.data);
+      setGroups(response.data as TGroup[]);
+    }
+    fetchGroups();
   }, []);
   
   return (
-    <Stack justify={'space-between'} style={{
-      height: '100%'
-    }}>
-      <MessageList messages={messages} />
-      <NewMessageInput />
-    </Stack>
+    <SimpleGrid cols={2}>
+      <Stack style={{
+        height: '100%',
+        justifyContent: 'space-between'
+      }}>
+        <GroupsList groups={groups} />
+        <NewGroup />
+      </Stack>
+      <Stack justify={'space-between'} style={{
+        height: 'calc(100vh - 48px)'
+      }}>
+        <MessageList messages={messages} />
+        <NewMessageInput />
+      </Stack>
+    </SimpleGrid>
   )
 }

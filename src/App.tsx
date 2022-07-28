@@ -1,14 +1,15 @@
-import {MantineProvider, Grid} from '@mantine/core';
+import {MantineProvider, Grid, useMantineTheme} from '@mantine/core';
 import {ChatScreenContainer} from "./screens/Chat/ChatScreenContainer";
 
 export const App = () => {
+  const theme = useMantineTheme();
+  
   return (
     <MantineProvider withNormalizeCSS>
       <Grid m={24} style={{
-        height: 'calc(100vh - 48px)'
+        backgroundColor: theme.colors.teal[0]
       }}>
-        <Grid.Col span={4} />
-        <Grid.Col span={8} style={{height: '100%'}}>
+        <Grid.Col style={{height: '100%'}}>
           <ChatScreenContainer />
         </Grid.Col>
       </Grid>

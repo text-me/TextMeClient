@@ -24,8 +24,8 @@ export const NewMessageInput = () => {
   };
   
   return (
-    <Grid>
-      <Grid.Col span={10}>
+    <Grid align={"center"}>
+      <Grid.Col span={9}>
         <Textarea ref={inputRef} onKeyDown={handleKeyDown} />
       </Grid.Col>
       <Grid.Col span={2}>
